@@ -10,12 +10,32 @@ import os
 import cv2
 from torchvision.transforms import ToTensor
 import os
+import logging
+import sys
+
+output_dir = os.path.dirname(os.path.abspath(__file__))
+
+def init_logging():
+    # Log to console
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+    log_info = logging.StreamHandler(sys.stdout)
+    log_info.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    logger.addHandler(log_info)
+    return logger
+
+logger = init_logging()
 
 # Initialize model, loss function, and optimizer
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = SRCNN().to(device)
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=1e-4)
+# optimizer = optim.SGD([
+#     {'params': model.conv1.parameters(), 'lr': 1e-4},  # First layer
+#     {'params': model.conv2.parameters(), 'lr': 1e-4},  # Second layer
+#     {'params': model.conv3.parameters(), 'lr': 1e-5}   # Last layer
+# ], lr=1e-4)#, momentum=0.9)
 
 # Load dataset
 all_paths = []
@@ -27,18 +47,28 @@ for year in range(2003, 2021):
                 if file_name.endswith(".nc"):
                     all_paths.append(os.path.join(folder_path, file_name))
         else:
-            print(f"Warning: Directory {folder_path} does not exist. Skipping...")
+            logger.info(f"Warning: Directory {folder_path} does not exist. Skipping...")
 
 train_paths, val_paths, test_paths = split_data(all_paths)
 
-train_dataset = PassiveMicrowaveDataset(train_paths[:60], transform=ToTensor(), use_bicubic=True)
-val_dataset = PassiveMicrowaveDataset(val_paths[:30], transform=ToTensor(), use_bicubic=True)
+# set how much of the dataset to use
+nr_samples = "all"
+if nr_samples == "all":
+    train_dataset = PassiveMicrowaveDataset(train_paths, transform=ToTensor(), use_bicubic=True)
+    val_dataset = PassiveMicrowaveDataset(val_paths, transform=ToTensor(), use_bicubic=True)
+    logger.info("Using all samples")
+else:    
+    val_samples = int(nr_samples/4)
+    train_dataset = PassiveMicrowaveDataset(train_paths[:nr_samples], transform=ToTensor(), use_bicubic=True)
+    val_dataset = PassiveMicrowaveDataset(val_paths[:val_samples], transform=ToTensor(), use_bicubic=True)
+    logger.info(f"Using {nr_samples} samples")
 
-train_loader = DataLoader(train_dataset, batch_size=10, shuffle=True)
-val_loader = DataLoader(val_dataset, batch_size=10, shuffle=False)
+batch_size = 16
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
 # Training loop
-num_epochs = 10
+num_epochs = 30
 
 for epoch in range(num_epochs):
     model.train()
@@ -64,7 +94,7 @@ for epoch in range(num_epochs):
             loss = criterion(outputs, high_res)
             val_loss += loss.item()
 
-    print(f"Epoch {epoch+1}/{num_epochs} - Train Loss: {train_loss/len(train_loader):.6f}, Val Loss: {val_loss/len(val_loader):.6f}")
-
+    logger.info(f"Epoch {epoch+1}/{num_epochs} - Train Loss: {train_loss/len(train_loader):.6f}, Val Loss: {val_loss/len(val_loader):.6f}")
+logger.info(f"Training completed. Saving model to {output_dir}...")
 # Save the model
-torch.save(model.state_dict(), "srcnn_model.pth")
+torch.save(model.state_dict(), f"{output_dir}/srcnn_model_epochs{num_epochs}_batchsize{batch_size}_samples{nr_samples}.pth")
