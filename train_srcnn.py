@@ -1,6 +1,6 @@
 import torch.optim as optim
 import torch.nn as nn
-from srcnn_model import SRCNN
+from srcnn_model3 import SRCNN
 from dataloader import PassiveMicrowaveDataset, split_data
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -30,12 +30,11 @@ logger = init_logging()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = SRCNN().to(device)
 criterion = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=1e-4)
-# optimizer = optim.SGD([
-#     {'params': model.conv1.parameters(), 'lr': 1e-4},  # First layer
-#     {'params': model.conv2.parameters(), 'lr': 1e-4},  # Second layer
-#     {'params': model.conv3.parameters(), 'lr': 1e-5}   # Last layer
-# ], lr=1e-4)#, momentum=0.9)
+optimizer = optim.Adam([
+    {'params': model.conv1.parameters(), 'lr': 1e-4},  # First layer
+    {'params': model.conv2.parameters(), 'lr': 1e-4},  # Second layer
+    {'params': model.conv3.parameters(), 'lr': 1e-5}   # Last layer
+])
 
 # Load dataset
 all_paths = []
@@ -63,13 +62,20 @@ else:
     val_dataset = PassiveMicrowaveDataset(val_paths[:val_samples], transform=ToTensor(), use_bicubic=True)
     logger.info(f"Using {nr_samples} samples")
 
-batch_size = 16
+batch_size = 8
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
-# Training loop
-num_epochs = 30
+num_epochs = 15
 
+# training info
+logger.info("Model: srcnn_model3")
+logger.info("Optimiser: Adam (lr per layer 1e-4 1e-4 1e-5)")
+logger.info(f"Nr of training samples: {nr_samples}")
+logger.info(f"Batch_size: {batch_size}")
+logger.info(f"Number of epochs: {num_epochs}")
+
+# Training loop
 for epoch in range(num_epochs):
     model.train()
     train_loss = 0
@@ -95,6 +101,10 @@ for epoch in range(num_epochs):
             val_loss += loss.item()
 
     logger.info(f"Epoch {epoch+1}/{num_epochs} - Train Loss: {train_loss/len(train_loader):.6f}, Val Loss: {val_loss/len(val_loader):.6f}")
+
+file_name = f"srcnn_model3_epochs{num_epochs}_batchsize{batch_size}_samples{nr_samples}.pth" 
+
 logger.info(f"Training completed. Saving model to {output_dir}...")
+logger.info(f"As file: {file_name}")
 # Save the model
-torch.save(model.state_dict(), f"{output_dir}/srcnn_model_epochs{num_epochs}_batchsize{batch_size}_samples{nr_samples}.pth")
+torch.save(model.state_dict(), f"{output_dir}/{file_name}")

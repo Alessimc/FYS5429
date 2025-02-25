@@ -1,0 +1,32 @@
+-catch_rsh /opt/sge/default/spool/r740-dsws2t2-be-compute/active_jobs/2104430.1/pe_hostfile
+r740-dsws2t2-be-compute
+ERROR: Unable to locate a modulefile for 'cdo'
+2025-02-20 14:01:28,643 - root - INFO - Warning: Directory /lustre/storeB/project/metkl/DigitalSeaIce/are-phd/SuperResolutionSeaIce/Dataset/AMSRSSMI/2011/11 does not exist. Skipping...
+2025-02-20 14:01:28,643 - root - INFO - Warning: Directory /lustre/storeB/project/metkl/DigitalSeaIce/are-phd/SuperResolutionSeaIce/Dataset/AMSRSSMI/2011/12 does not exist. Skipping...
+2025-02-20 14:01:28,644 - root - INFO - Warning: Directory /lustre/storeB/project/metkl/DigitalSeaIce/are-phd/SuperResolutionSeaIce/Dataset/AMSRSSMI/2012/01 does not exist. Skipping...
+2025-02-20 14:01:28,644 - root - INFO - Warning: Directory /lustre/storeB/project/metkl/DigitalSeaIce/are-phd/SuperResolutionSeaIce/Dataset/AMSRSSMI/2012/02 does not exist. Skipping...
+2025-02-20 14:01:28,645 - root - INFO - Warning: Directory /lustre/storeB/project/metkl/DigitalSeaIce/are-phd/SuperResolutionSeaIce/Dataset/AMSRSSMI/2012/03 does not exist. Skipping...
+2025-02-20 14:01:28,645 - root - INFO - Warning: Directory /lustre/storeB/project/metkl/DigitalSeaIce/are-phd/SuperResolutionSeaIce/Dataset/AMSRSSMI/2012/04 does not exist. Skipping...
+2025-02-20 14:01:28,645 - root - INFO - Warning: Directory /lustre/storeB/project/metkl/DigitalSeaIce/are-phd/SuperResolutionSeaIce/Dataset/AMSRSSMI/2012/05 does not exist. Skipping...
+2025-02-20 14:01:28,645 - root - INFO - Warning: Directory /lustre/storeB/project/metkl/DigitalSeaIce/are-phd/SuperResolutionSeaIce/Dataset/AMSRSSMI/2012/06 does not exist. Skipping...
+2025-02-20 14:07:45,715 - root - INFO - Using all samples
+2025-02-20 14:07:45,717 - root - INFO - Optimiser: Adam (lr per layer 1e-4 1e-4 1e-5)
+2025-02-20 14:07:45,717 - root - INFO - Nr of training samples: all
+2025-02-20 14:07:45,717 - root - INFO - Batch_size: 8
+2025-02-20 14:07:45,717 - root - INFO - Number of epochs: 15
+2025-02-20 14:37:32,700 - root - INFO - Epoch 1/15 - Train Loss: 1813.052581, Val Loss: 342.021823
+2025-02-20 15:10:31,363 - root - INFO - Epoch 2/15 - Train Loss: 216.043206, Val Loss: 130.041133
+2025-02-20 15:53:36,887 - root - INFO - Epoch 3/15 - Train Loss: 94.888656, Val Loss: 67.885178
+2025-02-20 16:35:56,913 - root - INFO - Epoch 4/15 - Train Loss: 62.794907, Val Loss: 55.691656
+2025-02-20 17:17:05,740 - root - INFO - Epoch 5/15 - Train Loss: 53.138035, Val Loss: 50.324860
+2025-02-20 17:48:26,528 - root - INFO - Epoch 6/15 - Train Loss: 48.256539, Val Loss: 42.605218
+2025-02-20 18:19:10,849 - root - INFO - Epoch 7/15 - Train Loss: 45.309832, Val Loss: 39.087615
+2025-02-20 18:49:56,959 - root - INFO - Epoch 8/15 - Train Loss: 43.244123, Val Loss: 46.889549
+2025-02-20 19:20:43,478 - root - INFO - Epoch 9/15 - Train Loss: 41.808381, Val Loss: 37.929728
+2025-02-20 19:51:13,353 - root - INFO - Epoch 10/15 - Train Loss: 40.934659, Val Loss: 34.753223
+2025-02-20 20:21:47,630 - root - INFO - Epoch 11/15 - Train Loss: 39.694663, Val Loss: 33.685742
+2025-02-20 20:52:24,696 - root - INFO - Epoch 12/15 - Train Loss: 39.076237, Val Loss: 35.975123
+2025-02-20 21:23:05,024 - root - INFO - Epoch 13/15 - Train Loss: 38.249929, Val Loss: 33.354541
+2025-02-20 21:53:49,153 - root - INFO - Epoch 14/15 - Train Loss: 37.517788, Val Loss: 36.905000
+2025-02-20 22:24:26,346 - root - INFO - Epoch 15/15 - Train Loss: 37.022071, Val Loss: 40.172779
+2025-02-20 22:24:26,347 - root - INFO - Training completed. Saving model to /lustre/storeB/users/alessioc/FYS5429...

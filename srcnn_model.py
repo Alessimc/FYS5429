@@ -10,7 +10,7 @@ class SRCNN(nn.Module):
         self.relu2 = nn.ReLU()
         self.conv3 = nn.Conv2d(32, 2, kernel_size=5, stride=1, padding=2)
 
-        # Initialize weights with Gaussian (mean=0, std=0.001)
+        # Initialize weights with Gaussian (mean=0, std=0.001) -> worse results than default
         # self._initialize_weights()
 
     def forward(self, x):

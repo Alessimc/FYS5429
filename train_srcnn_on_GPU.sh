@@ -1,6 +1,6 @@
 #!/bin/bash -f                      
 #$ -N train_srcnn                     # Set the job name
-#$ -l h_rt=18:00:00                 # Set a hard runtime limit (hh:mm:ss)
+#$ -l h_rt=24:00:00                 # Set a hard runtime limit (hh:mm:ss)
 #$ -S /bin/bash                     
 #$ -pe shmem-1 1                    
 #$ -l h_rss=32G,mem_free=32G,h_data=32G # Request memory 
