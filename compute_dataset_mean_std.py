@@ -1,7 +1,7 @@
 import numpy as np
 import xarray as xr
 import os
-from utils import init_logging, get_split_datapaths
+from lib.utils import init_logging, get_split_datapaths
 
 logger = init_logging()
 
@@ -23,34 +23,35 @@ def compute_mean_std(file_paths):
     total_pixels_v = 0  # Total pixels for V channels
     total_pixels_h = 0  # Total pixels for H channels
 
-    values_per_file = 4 * 416 * 416  # Assuming each file has 4 channels of 416x416
-    values_per_file_vh = 2 * 416 * 416  # Only V or H channels per file
+    # 103460 values per channel excluding nan values (173056 - 69596)
+    values_per_file = 4 * 103460  # Assuming each file has 4 channels of 416x416
+    values_per_file_vh = 2 * 103460  # Only V or H channels per file
 
     file_nr = 0
 
     for file_path in file_paths:
         ds = xr.open_dataset(file_path)
 
-        # Extract values and replace NaNs with 0
-        ssmi_v = np.nan_to_num(ds['ssmi_tb37v'].values, nan=0)
-        ssmi_h = np.nan_to_num(ds['ssmi_tb37h'].values, nan=0)
-        amsr_v = np.nan_to_num(ds['amsr_tb37v'].values, nan=0)
-        amsr_h = np.nan_to_num(ds['amsr_tb37h'].values, nan=0)
+        # Extract values 
+        ssmi_v = ds['ssmi_tb37v'].values
+        ssmi_h = ds['ssmi_tb37h'].values
+        amsr_v = ds['amsr_tb37v'].values
+        amsr_h = ds['amsr_tb37h'].values
 
         # Compute sum and sum of squares for all channels
-        sum_values += np.sum(ssmi_v) + np.sum(ssmi_h) + np.sum(amsr_v) + np.sum(amsr_h)
-        sum_squared += np.sum(ssmi_v**2) + np.sum(ssmi_h**2) + np.sum(amsr_v**2) + np.sum(amsr_h**2)
+        sum_values += np.nansum(ssmi_v) + np.nansum(ssmi_h) + np.nansum(amsr_v) + np.nansum(amsr_h)
+        sum_squared += np.nansum(ssmi_v**2) + np.nansum(ssmi_h**2) + np.nansum(amsr_v**2) + np.nansum(amsr_h**2)
 
         # Compute sum and sum of squares for V and H separately
-        sum_v += np.sum(ssmi_v) + np.sum(amsr_v)
-        sum_v_squared += np.sum(ssmi_v**2) + np.sum(amsr_v**2)
+        sum_v += np.nansum(ssmi_v) + np.nansum(amsr_v)
+        sum_v_squared += np.nansum(ssmi_v**2) + np.nansum(amsr_v**2)
         
-        sum_h += np.sum(ssmi_h) + np.sum(amsr_h)
-        sum_h_squared += np.sum(ssmi_h**2) + np.sum(amsr_h**2)
+        sum_h += np.nansum(ssmi_h) + np.nansum(amsr_h)
+        sum_h_squared += np.nansum(ssmi_h**2) + np.nansum(amsr_h**2)
 
         # Track max values
-        max_v = max(max_v, np.max(ssmi_v), np.max(amsr_v))
-        max_h = max(max_h, np.max(ssmi_h), np.max(amsr_h))
+        max_v = max(max_v, np.nanmax(ssmi_v), np.nanmax(amsr_v))
+        max_h = max(max_h, np.nanmax(ssmi_h), np.nanmax(amsr_h))
 
         # Update total pixel count
         total_pixels += values_per_file
@@ -78,6 +79,7 @@ train_paths, val_paths, test_paths = get_split_datapaths()
 
 mean, std, mean_v, std_v, mean_h, std_h, max_v, max_h = compute_mean_std(train_paths)
 
+logger.info(f"IGNORING nan values and not handling them as 0")
 logger.info(f"Computed dataset mean: {mean}, std: {std}")
 logger.info(f"Computed V mean: {mean_v}, V std: {std_v}, Max V: {max_v}")
 logger.info(f"Computed H mean: {mean_h}, H std: {std_h}, Max H: {max_h}")
