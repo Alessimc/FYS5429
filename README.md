@@ -14,7 +14,7 @@ GitHub repository containing the course project for [FYS5429 - Advanced Machine 
     <td><img src="final_figures/arctic_example.png" alt="comparison of models" width="500"style="display:block; margin:auto;"/></td>
   </tr>
   <tr>
-    <td align="left">Polar map projection of the Arctic domain, including brightness temperatures from passive microwave satellite retrievals (AMSR) over the ocean and sea ice in winter (March 15th 2020) and summer (September 15th 2020). Norway can be seen in the lower right corner, Russia in the upper right, Canada and Alaska in the upper left, and Greenland in the lower left. </td>
+    <td align="left"> Polar map projection of the Arctic region showing brightness temperatures from passive microwave satellite retrievals (AMSR) over ocean and sea ice. The maps depict conditions for low sea ice extent on September 15, 2020 (post-summer) and high sea ice extent on March 15, 2020 (mid-winter). Geographic references include Norway in the lower right, Russia in the upper right, Canada and Alaska in the upper left, and Greenland in the lower left corner. </td>
   </tr>
 </table>
 
