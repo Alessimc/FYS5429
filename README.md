@@ -26,8 +26,23 @@ All models show reduced performance during melt season, highlighting sensitivity
 These results demonstrate the potential of deep learning for enhancing passive microwave observations and suggest directions for further research.
 
 ---
+### 📊 PSNR and SSIM Metrics Comparison
+
+Mean values over the test set for vertical and horizontal polarizations.  
+Includes both deterministic models and probabilistic variants.
+
+| Model    | PSNR (V-Pol) | PSNR (H-Pol) | SSIM (V-Pol) | SSIM (H-Pol) |
+|----------|--------------|--------------|---------------|---------------|
+| *Baseline* | *33.7*         | *31.2*         | *0.791*         | *0.769*         |
+| SRCNN    | 38.0         | 33.1         | 0.830         | 0.820         |
+| **REDNet**   | **39.3**        | **34.8**        | **0.867**        | **0.854**        |
+| ELAN     | 38.2         | 33.3         | 0.835         | 0.825         |
+| SwinIR   | 37.6         | 33.1         | 0.835         | 0.824         |
+| VAE      | 39.0         | 34.5         | 0.857         | 0.846         |
+| VAE-GAN  | 32.6         | 30.32        | 0.713         | 0.741         |
 
 
+---
 ## 📊 Key Figures
 
 <table>
