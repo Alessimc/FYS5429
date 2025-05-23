@@ -1,0 +1,23 @@
+name: FYS5429
+channels:
+  - defaults
+dependencies:
+  - python=3.12.3
+  - ipykernel
+  - xarray
+  - numpy
+  - netcdf4
+  - cartopy
+  - matplotlib
+  - opencv
+  - cudatoolkit=11.8
+  - cudnn
+  - torchvision==0.20.1
+  - pytorch==2.5.1
+  - torchaudio==2.5.1
+  - pytorch-cuda=11.8
+  - scikit-image
+  - einops
+  - seaborn
+  - timm
+prefix: /home/alessioc/.conda/envs/FYS5429
